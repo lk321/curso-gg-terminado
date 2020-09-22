@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { ApolloProvider } from '@apollo/client'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import BoardPage from './pages/board.page'
+import DetailPage from './pages/detail.page'
+import FormPage from './pages/form.page'
 
-export default App;
+import NavBar from './components/navbar.component'
+
+import client from './graphql/client'
+
+const App = () => (
+    <ApolloProvider client={client}>
+        <Router>
+            <div>
+                <NavBar />
+                <section className="section">
+                    <div className="container">
+                        <Switch>
+                            <Route exact path="/" component={BoardPage} />
+                            <Route exact path="/users/new" component={FormPage} />
+                            <Route path="/users/:userId" component={DetailPage} />
+                        </Switch>
+                    </div>
+                </section>
+            </div>
+        </Router>
+    </ApolloProvider>
+)
+
+export default App
